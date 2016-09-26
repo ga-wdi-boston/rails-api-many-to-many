@@ -1,107 +1,283 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# Talk Template
-
-Use this template to structure your READMEs for talks. Remove text from this
-section, or use it to frame the talk you are giving. Good framing answers the
-question "Why am I learning this?".
-
-Be sure to include a recent [`LICENSE`](LICENSE) and Markdown linter
-configuration ([`.remarkrc`](.remarkrc)). Also, include an appropriate
-`.gitignore`; these are usually found in specific technology templates, for
-example [js-template](https://www.github.com/ga-wdi-boston/js-template).
-
-## Prerequisites
-
--   Topics with which developers should be familiar with.
--   Prerequisites are "just-in-time", so if I have a prerequisite that mentions
-    Sass, I would **not** need to include CSS as a prerequisite.
--   [Links to previous materials](https://www.github.com/ga-wdi-boston/example)
-    are often useful.
-
-## Objectives
-
-By the end of this, developers should be able to:
-
--   Write objectives that focus on demonstrating knowledge.
--   Write learning objectives that begin with an [imperative
-    verb](https://en.wikipedia.org/wiki/Imperative_mood).
--   Avoid objectives that start with "Use" or "Understand".
--   Rewrite objecives that begin with "Use" by inverting sentence structure.
--   End each objective with a period.
--   Write objectives on the whiteboard so they can be referenced during a talk.
-
-## Preparation
+# Rails API Many-To-Many Library Demo
 
 1.  [Fork and clone](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
     this repository.
-1.  Create a new branch, `training`, for your work.
-1.  Install dependencies with `npm install`.
+1.  Change into the new directory.
+1.  Install dependencies with `bundle install`.
+1.  Add secrets to `config/secrets.yml`.
+1.  Create a database with `bundle exec rake db:create`.
+1.  Create a database schema with `bundle exec rake db:migrate`.
+1.  Run the HTTP server with `bundle exec rails server`.
 
-Better preparation instructions may be found as
-[snippets](https://github.com/ga-wdi-boston/instructors/tree/master/snippets).
+## Where We Left Off
 
-It's a good idea to have students do these steps while you're writing objectives
-on the whiteboard.
+Previously we created a single model, `Book`.
 
-## Leading Topic Heading
+Then we created a second model `Author` and linked it to `Book`.
 
-Here is where the talk begins. If you have not already included framing above,
-it's appropriate to put it here. Link to introductory articles or documentation.
-Motivate the next section.
+Now we are going to add a third model: `Loan`. Which is going to act as a link
+between the `Author`s and `Book`s.
 
-Demos, exercises, and labs are labelled as such, followed by a colon and a
-description of the activity starting with an [imperative
-verb](https://en.wikipedia.org/wiki/Imperative_mood).
+This `Loan` model will join together `Author` and `Book`.  Earlier, when we
+were working with a `one-to-many` relationship `books` belonged to an `author`.
 
-## Demo: Write a Demo
+We know this is a two way street however: `Books` can have many `Authors` and
+`Authors` can have many `Books`.  When we created a migration:
 
-Demos are demonstrations, and developers should give their full attention to
-them. It's a great time for them to take notes about important concepts before
-applying them in an exercise.
+```ruby
+class AddAuthorToBooks < ActiveRecord::Migration
+  def change
+    add_reference :books, :author, index: true, foreign_key: true
+  end
+end
+```
 
-Demos correspond to the "I do" portion of scaffolding from consultant training.
+We added an `author` reference column to the `books` table which is able to
+store a reference to an author of a particular book.
 
-## Exercise: Write an Exercise
+In order to make this a two way street we are going to need a `join table`.
 
-During exercises, developers should apply concepts covered in the previous demo.
-This is their first chance to generalize concepts introduced. Exercises should
-be very focused, and flow natural into a lab.
+## Join Tables
 
-Exercises correspond to the "We do" portion of scaffolding from consultant
-training.
+A `join table` is a special table which holds refrences two or more tables.
 
-## Lab: Write a Lab
+Let's see what this table might look like:
 
-During labs, developers get to demonstrate their understanding of concepts from
-demos and applied knowledge from exercises. Labs are an opportunity for
-developers to build confidence, and also serve as a diagnostic tool for
-consultants to evaluate developer understanding.
+![has_many_through](https://cloud.githubusercontent.com/assets/10408784/17598817/451a3662-5fca-11e6-8ad1-613d4e56970f.png)
 
-Labs should be timed explicitly using a timer. When estimating the time it will
-take to complete a lab, it is better to overestimate. During labs, consultants
-should circle the room and interact with developers, noting patterns and
-prompting with hints on how to complete the lab. If developers end early, a
-consultant may stop the lab timer. If developers do not finish in time, a
-consultant may give more time at her discretion based on current talk pace, the
-current estimate for the talk, and the importance of completing the lab while
-consultant support is available.
+<!-- Image from Rails Docs -->
 
-Labs correspond to the "You do" portion of scaffolding from consultant
-training.
+In the above example the `appointments` table is the `join table`. You can see
+it has both a `physician_id` column and a `patient_id` column.  Both of these
+columns store refrences to their respective tables.
 
-## Additional Resources
+You can also see a column called `appointment_date`. You are allowed to add
+other columns on to your `join table`, but do not necessarily have to.  In this
+case it makes sense, in some cases it may not, use your judgement.
 
--   Any useful links should be included in the talk material where the link is
-    first referenced.
--   Additional links for further study or exploration are appropriate in this
-    section.
--   Links to important parts of documentation not covered during the talk, or
-    tools tangentially used but not part of the focus of the talk, are also
-    appropriate.
+## Borrowers
+
+Let's make borrowers' resources with scaffolding:
+
+`rails g scaffold borrower given_name:string surname:string`
+
+Let's migrate that in as well so we don't confuse ourselves if we have to
+rollback.
+
+`rake db:migrate`
+
+## Making a Join Table
+
+We're going to use the generators that Rails provides to generate a `loan` model
+along with a `loan` migration that includes references to both `borrower` and
+`book`.
+
+```ruby
+rails g scaffold loan borrower:references book:references date:datetime
+```
+
+Along with creating a `loan` model, controller, routes, and serializer, Rails
+will create this migration:
+
+```ruby
+class CreateLoans < ActiveRecord::Migration
+  def change
+    create_table :loans do |t|
+      t.references :borrower, index: true, foreign_key: true
+      t.references :book, index: true, foreign_key: true
+      t.datetime :date
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+So our `Loan` table now has the following columns: ID, borrower_id, book_id, Date.
+
+Let's run our migration with `rake db:migrate`
+
+Let's take a peek at our database and see how this table looks. Simply type:
+
+```bash
+rails db
+```
+
+If your prompt looks like this `rails-api-library-demo_development=#` type:
+
+```bash
+\d loans
+```
+
+You will be able to see all the columns contained in the `loan` table.
+
+## Through: Associated Records
+
+While we can see that in the `loan` model some some code was added for us:
+
+```ruby
+class Loan < ActiveRecord::Base
+  belongs_to :borrower
+  belongs_to :book
+end
+```
+
+But we need to go into our models (`borrower`, `book`, and `loan`) and add some
+more code to finish creating our associations.
+
+Let's go ahead and add that code starting with the `book` model:
+
+```ruby
+# Book Model
+class Book < ActiveRecord::Base
+  has_many :borrowers, through: :loans
+  has_many :loans
+end
+```
+
+In our borrower model we will do something similar:
+
+```ruby
+# Borrower Model
+class Borrower < ActiveRecord::Base
+  has_many :books, through: :loans
+  has_many :loans
+end
+```
+
+Finally in our `loan` model we're going to update it to:
+
+```ruby
+class Loan < ActiveRecord::Base
+  belongs_to :borrower, inverse_of: :loans
+  belongs_to :book, inverse_of: :loans
+end
+```
+
+What is `inverse_of` and why do we need it?
+
+When you create a `bi-directional` (two way) association, ActiveRecord does not
+necessarily know about that relationship.
+
+*I say necessarily because in future versions of Rails this is/may be resolved*
+
+Without `inverse_of` you can get some strange behavior like this:
+
+```ruby
+a = Author.first
+b = a.books.first
+a.first_name == b.author.first_name # => true
+a.first_name = 'Lauren'
+a.first_name == b.author.first_name # => false
+```
+
+Rails will store `a` and `b.author` in different places in memory, not knowing to
+change one when you change the other. `inverse_of` informs Rails of the
+relationship, so you don't have inconsistancies in your data.
+
+*For more info on this please read the [Rails Guides](http://guides.rubyonrails.org/association_basics.html)*
+
+## Adding Via ActiveRecord
+
+First, let's open our Rails console with `rails console`
+
+And Let's create some books and borrowers
+
+```ruby
+# books
+book1 = Book.create([{ title: 'Less Funny Than Jason'}])
+book2 = Book.create([{ title: 'How I Miss Meat!'}])
+book3 = Book.create([{ title: 'Lauren is on fleek'}])
+book4 = Book.create([{ title: 'I am a Robot: Beep Boop'}])
+
+# borrowers
+borrower1 = Borrower.create([{ given_name: 'Lauren', surname: 'Fazah'}])
+borrower2 = Borrower.create([{ given_name: 'Jason', surname: 'Weeks'}])
+borrower3 = Borrower.create([{ given_name: 'Antony', surname: 'Donovan'}])
+```
+Check `localhost:3000/books` and `localhost:3000/borrowers` to see if we have
+created books and borrowers.
+
+## Updating Serializers
+
+Now that we can see some data it's time to update our serializers or these
+relationships will not be as useful as they can.
+
+Let's add the borrower attribute to our attributes list in our `book` serializer.
+
+Our finished serializer should look like this:
+
+```ruby
+class BookSerializer < ActiveModel::Serializer
+  attributes :id, :title, :borrowers
+end
+```
+
+Let's do the same in our `borrower` serializer, it should look like this once,
+we're done.
+
+```ruby
+class BorrowerSerializer < ActiveModel::Serializer
+  attributes :id, :surname, :given_name, :books
+end
+```
+
+## Test Using Curl
+
+Now, let's test this using curl. To connect `books` and `borrowers` we are going
+to post to the join table:
+
+```bash
+curl --include --request POST http://localhost:3000/loans \
+  --header "Content-Type: application/json" \
+  --data '{
+    "loan": {
+      "borrower_id": "2",
+      "book_id": "2"
+    }
+  }'
+```
+
+Using this curl request as your basis `Create`, `Read` and `Update` the loans
+table. *DO NOT DELETE*
+
+## Dependent Destroy
+
+Say we wanted to delete a book or an borrower. If we delete one we proably want to
+delete the association with the other.  Rails helps us with this with a method
+called `depend destroy`.  Let's edit our `book` and `borrower` model to inclde it
+so when we delete one, reference to the other gets deleted as well.
+
+Let's update our models to look like the following:
+
+```ruby
+# Book Model
+class Book < ActiveRecord::Base
+  has_many :borrowers, through: :loans
+  has_many :loans, dependent: :destroy
+end
+```
+
+```ruby
+class Borrower < ActiveRecord::Base
+  has_many :borrowers, through: :loans
+  has_many :loans, dependent: :destroy
+end
+```
+
+Test this out by using curl request to construct relationships then remove them.
+
+```bash
+curl --include --request DELETE http://localhost:3000/borrowers/2
+```
+
+## Code-along: Clinic
+
+## Lab: Cookbook time
 
 ## [License](LICENSE)
 
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
+Source code distributed under the MIT license. Text and other assets copyright
+General Assembly, Inc., all rights reserved.
