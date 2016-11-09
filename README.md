@@ -5,11 +5,6 @@
 1.  [Fork and clone](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
     this repository.
 1.  Change into the new directory.
-1.  Install dependencies with `bundle install`.
-1.  Add secrets to `config/secrets.yml`.
-1.  Create a database with `bundle exec rake db:create`.
-1.  Create a database schema with `bundle exec rake db:migrate`.
-1.  Run the HTTP server with `bundle exec rails server`.
 
 ## Where We Left Off
 
