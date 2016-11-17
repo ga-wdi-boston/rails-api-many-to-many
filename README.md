@@ -406,26 +406,6 @@ What is `inverse_of` and why do we need it? Recall the example we discussed
 with `author` and `book`.
 
 
-### Adding Via ActiveRecord: Clinic
-
-First, let's open our Rails console with `rails console`
-
-And Let's create some doctors and patients
-
-```ruby
-# patients
-patient1 = Patient.create([{ given_name: 'Jason', family_name: 'Weeks'}])
-patient2 = Patient.create([{ given_name: 'Lauren', family_name: 'Fazah'}])
-patient3 = Patient.create([{ given_name: 'Antony', family_name: 'Donovan'}])
-
-# doctors
-doctor1 = Doctor.create([{ given_name: 'Dr.Good', family_name: 'Face'}])
-doctor2 = Doctor.create([{ given_name: 'Dr.Bad', family_name: 'Hands'}])
-doctor3 = Doctor.create([{ given_name: 'Dr.Giggles', family_name: 'McGee'}])
-```
-Check `localhost:4741/patients` and `localhost:4741/doctors` to see if we have
-created patients and doctors.
-
 ### Updating Serializers: Clinic
 
 Now that we can see some data it's time to update our serializers or these
