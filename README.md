@@ -58,7 +58,7 @@ case it makes sense, in some cases it may not, use your judgement.
 
 Let's make borrowers' resources with scaffolding:
 
-`rails g scaffold borrower given_name:string surname:string`
+`rails g scaffold borrower given_name:string family_name:string`
 
 Let's migrate that in as well so we don't confuse ourselves if we have to
 rollback.
@@ -191,9 +191,9 @@ book3 = Book.create([{ title: 'Lauren is on fleek'}])
 book4 = Book.create([{ title: 'I am a Robot: Beep Boop'}])
 
 # borrowers
-borrower1 = Borrower.create([{ given_name: 'Lauren', surname: 'Fazah'}])
-borrower2 = Borrower.create([{ given_name: 'Jason', surname: 'Weeks'}])
-borrower3 = Borrower.create([{ given_name: 'Antony', surname: 'Donovan'}])
+borrower1 = Borrower.create([{ given_name: 'Lauren', family_name: 'Fazah'}])
+borrower2 = Borrower.create([{ given_name: 'Jason', family_name: 'Weeks'}])
+borrower3 = Borrower.create([{ given_name: 'Antony', family_name: 'Donovan'}])
 ```
 Check `localhost:4741/books` and `localhost:4741/borrowers` to see if we have
 created books and borrowers.
@@ -218,7 +218,7 @@ we're done.
 
 ```ruby
 class BorrowerSerializer < ActiveModel::Serializer
-  attributes :id, :surname, :given_name, :books
+  attributes :id, :family_name, :given_name, :books
 end
 ```
 
@@ -426,14 +426,14 @@ And Let's create some doctors and patients
 
 ```ruby
 # patients
-patient1 = Patient.create([{ given_name: 'Jason', surname: 'Weeks'}])
-patient2 = Patient.create([{ given_name: 'Lauren', surname: 'Fazah'}])
-patient3 = Patient.create([{ given_name: 'Antony', surname: 'Donovan'}])
+patient1 = Patient.create([{ given_name: 'Jason', family_name: 'Weeks'}])
+patient2 = Patient.create([{ given_name: 'Lauren', family_name: 'Fazah'}])
+patient3 = Patient.create([{ given_name: 'Antony', family_name: 'Donovan'}])
 
 # doctors
-doctor1 = Doctor.create([{ given_name: 'Dr.Good', surname: 'Face'}])
-doctor2 = Doctor.create([{ given_name: 'Dr.Bad', surname: 'Hands'}])
-doctor3 = Doctor.create([{ given_name: 'Dr.Giggles', surname: 'McGee'}])
+doctor1 = Doctor.create([{ given_name: 'Dr.Good', family_name: 'Face'}])
+doctor2 = Doctor.create([{ given_name: 'Dr.Bad', family_name: 'Hands'}])
+doctor3 = Doctor.create([{ given_name: 'Dr.Giggles', family_name: 'McGee'}])
 ```
 Check `localhost:4741/patients` and `localhost:4741/doctors` to see if we have
 created patients and doctors.
@@ -449,7 +449,7 @@ Our finished serializer should look like this:
 
 ```ruby
 class DoctorSerializer < ActiveModel::Serializer
-  attributes :id, :given_name, :surname, :patients
+  attributes :id, :given_name, :family_name, :patients
 end
 ```
 
@@ -458,7 +458,7 @@ we're done.
 
 ```ruby
 class PatientsSerializer < ActiveModel::Serializer
-  attributes :id, :surname, :given_name, :doctors
+  attributes :id, :family_name, :given_name, :doctors
 end
 ```
 
