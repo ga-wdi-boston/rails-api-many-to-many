@@ -233,13 +233,18 @@ curl --include --request POST http://localhost:4741/loans \
   --data '{
     "loan": {
       "borrower_id": "2",
-      "book_id": "2"
+      "book_id": "2",
+      "date": "2016-11-22T11:32:00"
     }
   }'
 ```
 
 Using this curl request as your basis `Create`, `Read` and `Update` the loans
 table. *DO NOT DELETE*
+
+The same result could be achieved in the Rails console using Ruby. How might
+we write that command?
+
 
 ### Dependent Destroy
 
