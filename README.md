@@ -40,7 +40,7 @@ A `join table` is a special table which holds refrences two or more tables.
 
 Let's see what this table might look like:
 
-![has_many_through](https://cloud.githubusercontent.com/assets/10408784/17598817/451a3662-5fca-11e6-8ad1-613d4e56970f.png)
+![has_many_through](./book-borrower-loan.png)
 
 <!-- Image from Rails Docs -->
 
