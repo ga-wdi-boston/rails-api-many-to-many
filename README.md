@@ -129,6 +129,7 @@ Let's go ahead and add that code starting with the `book` model:
 ```ruby
 # Book Model
 class Book < ActiveRecord::Base
+  belongs_to :author
   has_many :borrowers, through: :loans
   has_many :loans
 end
@@ -252,6 +253,7 @@ Let's update our models to look like the following:
 ```ruby
 # Book Model
 class Book < ActiveRecord::Base
+  belongs_to :author
   has_many :borrowers, through: :loans
   has_many :loans, dependent: :destroy
 end
