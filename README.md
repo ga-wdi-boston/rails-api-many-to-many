@@ -194,7 +194,7 @@ borrower1 = Borrower.create([{ given_name: 'Lauren', surname: 'Fazah'}])
 borrower2 = Borrower.create([{ given_name: 'Jason', surname: 'Weeks'}])
 borrower3 = Borrower.create([{ given_name: 'Antony', surname: 'Donovan'}])
 ```
-Check `localhost:3000/books` and `localhost:3000/borrowers` to see if we have
+Check `localhost:4741/books` and `localhost:4741/borrowers` to see if we have
 created books and borrowers.
 
 ### Updating Serializers
@@ -227,7 +227,7 @@ Now, let's test this using curl. To connect `books` and `borrowers` we are going
 to post to the join table:
 
 ```bash
-curl --include --request POST http://localhost:3000/loans \
+curl --include --request POST http://localhost:4741/loans \
   --header "Content-Type: application/json" \
   --data '{
     "loan": {
@@ -267,7 +267,7 @@ end
 Test this out by using curl request to construct relationships then remove them.
 
 ```bash
-curl --include --request DELETE http://localhost:3000/borrowers/2
+curl --include --request DELETE http://localhost:4741/borrowers/2
 ```
 
 ## Code-along: Clinic
@@ -433,7 +433,7 @@ doctor1 = Doctor.create([{ given_name: 'Dr.Good', surname: 'Face'}])
 doctor2 = Doctor.create([{ given_name: 'Dr.Bad', surname: 'Hands'}])
 doctor3 = Doctor.create([{ given_name: 'Dr.Giggles', surname: 'McGee'}])
 ```
-Check `localhost:3000/patients` and `localhost:3000/doctors` to see if we have
+Check `localhost:4741/patients` and `localhost:4741/doctors` to see if we have
 created patients and doctors.
 
 ### Updating Serializers: Clinic
@@ -466,7 +466,7 @@ Now, let's test this using curl. To connect `doctors` and `patients` we are goin
 to post to the join table:
 
 ```bash
-curl --include --request POST http://localhost:3000/appointments \
+curl --include --request POST http://localhost:4741/appointments \
   --header "Content-Type: application/json" \
   --data '{
     "appointment": {
