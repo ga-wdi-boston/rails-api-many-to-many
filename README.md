@@ -164,11 +164,11 @@ necessarily know about that relationship.
 Without `inverse_of` you can get some strange behavior like this:
 
 ```ruby
-a = Author.first
-b = a.books.first
-a.first_name == b.author.first_name # => true
-a.first_name = 'Lauren'
-a.first_name == b.author.first_name # => false
+author = Author.first
+book = author.books.first
+author.given_name == book.author.given_name # => true
+author.given_name = 'Lauren'
+author.given_name == book.author.given_name # => false
 ```
 
 Rails will store `a` and `b.author` in different places in memory, not knowing to
@@ -400,28 +400,9 @@ class Appointment < ActiveRecord::Base
 end
 ```
 
-What is `inverse_of` and why do we need it?
+What is `inverse_of` and why do we need it? Recall the example we discussed
+with `author` and `book`.
 
-When you create a `bi-directional` (two way) association, ActiveRecord does not
-necessarily know about that relationship.
-
-*I say necessarily because in future versions of Rails this is/may be resolved*
-
-Without `inverse_of` you can get some strange behavior like this:
-
-```ruby
-a = Author.first
-b = a.books.first
-a.first_name == b.author.first_name # => true
-a.first_name = 'Lauren'
-a.first_name == b.author.first_name # => false
-```
-
-Rails will store `a` and `b.author` in different places in memory, not knowing to
-change one when you change the other. `inverse_of` informs Rails of the
-relationship, so you don't have inconsistancies in your data.
-
-*For more info on this please read the [Rails Guides](http://guides.rubyonrails.org/association_basics.html)*
 
 ### Adding Via ActiveRecord: Clinic
 
