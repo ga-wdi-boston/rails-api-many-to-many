@@ -245,7 +245,6 @@ table. *DO NOT DELETE*
 The same result could be achieved in the Rails console using Ruby. How might
 we write that command?
 
-
 ### Dependent Destroy
 
 Say we wanted to delete a book or an borrower. If we delete one we proably want to
@@ -276,6 +275,9 @@ Test this out by using curl request to construct relationships then remove them.
 ```bash
 curl --include --request DELETE http://localhost:4741/borrowers/2
 ```
+
+How could we write the same command in the Rails console using Ruby?
+
 
 ## Code-along: Clinic
 
