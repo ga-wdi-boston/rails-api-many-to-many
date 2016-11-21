@@ -6,6 +6,15 @@
     this repository.
 1.  Change into the new directory.
 
+## Prerequisites
+
+This lesson assumes you have forked and cloned the following:
+
+-   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
+-   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
+-   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+
+
 ## Where We Left Off
 
 Previously we created a single model, `Book`.
@@ -44,8 +53,8 @@ Let's see what this table might look like:
 
 <!-- Image from Rails Docs -->
 
-In the above example the `appointments` table is the `join table`. You can see
-it has both a `physician_id` column and a `patient_id` column.  Both of these
+In the above example the `loans` table is the `join table`. You can see
+it has both a `book_id` column and a `borrower_id` column.  Both of these
 columns store refrences to their respective tables.
 
 You can also see a column called `appointment_date`. You are allowed to add
