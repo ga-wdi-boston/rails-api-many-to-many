@@ -2,18 +2,27 @@
 
 # Rails API Many-To-Many Library Demo
 
-1.  [Fork and clone](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
-    this repository.
-1.  Change into the new directory.
-
-## Prerequisites
-
 This lesson assumes you have forked and cloned the following:
 
 -   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
 -   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
 -   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
 
+1.  Open a desktop view for each of these projects
+1.  Open an Atom, Terminal, and browser window for each project
+
+## Objectives
+
+-   Create a many-to-many relationship with existing tables
+-   Create and utilize a join table
+-   Create a new resource using `scaffold`
+-   Specify an `inverse_of` relationship
+-   Compare and contrast objects created in the join table versus those that were not
+
+## Prerequisites
+
+-   [rails-api-single-resource](https://github.com/ga-wdi-boston/rails-api-single-resources)
+-   [rails-api-one-to-many](https://github.com/ga-wdi-boston/rails-api-one-to-many)
 
 ## Where We Left Off
 
