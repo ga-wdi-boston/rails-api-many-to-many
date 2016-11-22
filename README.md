@@ -30,14 +30,13 @@ Previously we created a single model, `Book`.
 
 Then we created a second model `Author` and linked it to `Book`.
 
-Now we are going to add a third model: `Loan`. Which is going to act as a link
-between the `Author`s and `Book`s.
+Now we are going to add a third model: `Borrower`, then we are going to create
+a fourth model, `Loan`, which is going to act as a link between the
+`Borrower`s and `Book`s.
 
-This `Loan` model will join together `Author` and `Book`.  Earlier, when we
+This `Loan` model will join together `Borrower` and `Book`.  Earlier, when we
 were working with a `one-to-many` relationship `books` belonged to an `author`.
-
-We know this is a two way street however: `Books` can have many `Authors` and
-`Authors` can have many `Books`.  When we created a migration:
+When we created a migration:
 
 ```ruby
 class AddAuthorToBooks < ActiveRecord::Migration
@@ -47,10 +46,12 @@ class AddAuthorToBooks < ActiveRecord::Migration
 end
 ```
 
-We added an `author` reference column to the `books` table which is able to
+...we added an `author` reference column to the `books` table which is able to
 store a reference to an author of a particular book.
 
-In order to make this a two way street we are going to need a `join table`.
+With `Borrowers`, we know this is a two way street however: `Books` can have
+many `Borrowers` and `Borrowers` can have many `Books`. In order to make this
+a two way street we are going to need a `join table`.
 
 ## Join Tables
 
