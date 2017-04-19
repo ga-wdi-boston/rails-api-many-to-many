@@ -13,11 +13,20 @@ This lesson assumes you have forked and cloned the following:
 
 ## Objectives
 
+By the end of this, developers should be able to:
+
 -   Create a many-to-many relationship with existing tables
 -   Create and utilize a join table
 -   Create a new resource using `scaffold`
 -   Specify an `inverse_of` relationship
 -   Compare and contrast objects created in the join table versus those that were not
+
+## Preparation
+
+1.  Fork and clone this repository.
+ [FAQ](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
+1.  Create a new branch, `training`, for your work.
+1.  Checkout to the `training` branch.
 
 ## Prerequisites
 
@@ -501,5 +510,6 @@ relationship between `Receipes` and `Ingredients`.
 
 ## [License](LICENSE)
 
-Source code distributed under the MIT license. Text and other assets copyright
-General Assembly, Inc., all rights reserved.
+1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
+1.  All software code is licensed under GNU GPLv3. For commercial use or
+    alternative licensing, please contact legal@ga.co.
