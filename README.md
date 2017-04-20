@@ -11,6 +11,11 @@ This lesson assumes you have forked and cloned the following:
 1.  Open a desktop view for each of these projects
 1.  Open an Atom, Terminal, and browser window for each project
 
+## Prerequisites
+
+-   [rails-api-single-resource](https://github.com/ga-wdi-boston/rails-api-single-resources)
+-   [rails-api-one-to-many](https://github.com/ga-wdi-boston/rails-api-one-to-many)
+
 ## Objectives
 
 By the end of this, developers should be able to:
@@ -27,11 +32,6 @@ By the end of this, developers should be able to:
  [FAQ](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
 1.  Create a new branch, `training`, for your work.
 1.  Checkout to the `training` branch.
-
-## Prerequisites
-
--   [rails-api-single-resource](https://github.com/ga-wdi-boston/rails-api-single-resources)
--   [rails-api-one-to-many](https://github.com/ga-wdi-boston/rails-api-one-to-many)
 
 ## Where We Left Off
 
