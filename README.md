@@ -436,11 +436,13 @@ table. *DO NOT DELETE*
 
 Now it's your turn to test the `recipes` and `ingredients` join table. Use the above curl scripts as examples to achieve your task.
 
-### Dependent Destroy
+## Dependent Destroy
+
+### Demo: Add Library Dependent Destroy
 
 Say we wanted to delete a book or an borrower. If we delete one we proably want to
 delete the association with the other.  Rails helps us with this with a method
-called `depend destroy`.  Let's edit our `book` and `borrower` model to inclde it
+called `dependent destroy`.  Let's edit our `book` and `borrower` model to inclde it
 so when we delete one, reference to the other gets deleted as well.
 
 Let's update our models to look like the following:
@@ -461,7 +463,7 @@ class Borrower < ActiveRecord::Base
 end
 ```
 
-Test this out by using curl request to construct relationships then remove them.
+Let's test this out by using curl request to construct relationships then remove them.
 
 ```bash
 curl --include --request DELETE http://localhost:4741/borrowers/2
@@ -469,6 +471,36 @@ curl --include --request DELETE http://localhost:4741/borrowers/2
 
 How could we write the same command in the Rails console using Ruby?
 
+### Code Along: Add Clinic Dependent Destroy
+
+Say we wanted to delete a patient or an doctor. If we delete one we proably want to
+delete the association with the other.  We'll use the `dependent destroy` to help us achieve this goal. Let's edit our `patient` and `doctor` model to inclde it
+so when we delete one, reference to the other gets deleted as well.
+
+Let's update our models to look like the following:
+
+```ruby
+# Doctor Model
+class Doctor < ActiveRecord::Base
+  has_many :patients, through: :appointments
+  has_many :appointments, dependent: :destroy
+end
+```
+
+```ruby
+class Patient < ActiveRecord::Base
+  has_many :doctors, through: :appointments
+  has_many :appointments, dependent: :destroy
+end
+```
+
+Let's test this out by using curl request to construct relationships then remove them.
+
+### Lab: Add Cookbook Dependent Destroy
+
+Go ahead and setup the dependent destroy method on the `recipe` and `ingredient` models.
+
+Don't forget to test with curl requests!
 
 ## Code-along: Clinic
 
@@ -514,30 +546,6 @@ Now let's run this migration with `bin/rails db:migrate`.
 ### Test Using Curl: Clinic
 
 ### Dependent Destroy: Clinic
-
-Say we wanted to delete a patient or an doctor. If we delete one we proably want to
-delete the association with the other.  Rails helps us with this with a method
-called `depend destroy`.  Let's edit our `patient` and `doctor` model to inclde it
-so when we delete one, reference to the other gets deleted as well.
-
-Let's update our models to look like the following:
-
-```ruby
-# Doctor Model
-class Doctor < ActiveRecord::Base
-  has_many :patients, through: :appointments
-  has_many :appointments, dependent: :destroy
-end
-```
-
-```ruby
-class Patient < ActiveRecord::Base
-  has_many :doctors, through: :appointments
-  has_many :appointments, dependent: :destroy
-end
-```
-
-Test this out by using curl request to construct relationships then remove them.
 
 ## Lab: Cookbook Join Table
 
