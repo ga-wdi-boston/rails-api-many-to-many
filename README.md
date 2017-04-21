@@ -193,7 +193,9 @@ Create a join table that represents the **association** between `recipes` and `i
 
 **Note:** This table's name should be semantically correct.
 
-### Through: Associated Records
+## Through: Associated Records
+
+### Demo: Modifying Library Associations
 
 While we can see that in the `loan` model some some code was added for us:
 
@@ -259,6 +261,57 @@ change one when you change the other. `inverse_of` informs Rails of the
 relationship, so you don't have inconsistancies in your data.
 
 *For more info on this please read the [Rails Guides](http://guides.rubyonrails.org/association_basics.html)*
+
+### Code Along: Modifying Clinic Associations
+
+While we can see that in the `appointment` model some some code was added for us:
+
+```ruby
+class Appointment < ActiveRecord::Base
+  belongs_to :doctor
+  belongs_to :patient
+end
+```
+
+But we need to go into our models (`patient`, `doctor`, and `appointment`) and
+add some more code to finish creating our associations.
+
+Let's go ahead and add that code starting with the `patient` model:
+
+```ruby
+# Patient Model
+class Patient < ActiveRecord::Base
+  has_many :doctors, through: :appointments
+  has_many :appointments
+end
+```
+
+In our doctor model we will do something similar:
+
+```ruby
+# Doctor Model
+class Doctor < ActiveRecord::Base
+  has_many :patients, through: :appointments
+  has_many :appointments
+end
+```
+
+Finally in our `appointment` model we're going to update it to:
+
+```ruby
+class Appointment < ActiveRecord::Base
+  belongs_to :doctor, inverse_of: :appointments
+  belongs_to :patient, inverse_of: :appointments
+end
+```
+
+What is `inverse_of` and why do we need it? Recall the example we discussed
+with `author` and `book`.
+
+### Lab: Modifying Cookbook Associations
+
+Go ahead and set up the three models with the appropriate associations.
+
 
 ### Adding Via ActiveRecord
 
@@ -399,52 +452,7 @@ Now let's run this migration with `bin/rails db:migrate`.
 ### Making a Join Table: Clinic Done
 
 
-### Through: Associated Records: Clinic
-
-While we can see that in the `appointment` model some some code was added for us:
-
-```ruby
-class Appointment < ActiveRecord::Base
-  belongs_to :doctor
-  belongs_to :patient
-end
-```
-
-But we need to go into our models (`patient`, `doctor`, and `appointment`) and
-add some more code to finish creating our associations.
-
-Let's go ahead and add that code starting with the `patient` model:
-
-```ruby
-# Patient Model
-class Patient < ActiveRecord::Base
-  has_many :doctors, through: :appointments
-  has_many :appointments
-end
-```
-
-In our doctor model we will do something similar:
-
-```ruby
-# Doctor Model
-class Doctor < ActiveRecord::Base
-  has_many :patients, through: :appointments
-  has_many :appointments
-end
-```
-
-Finally in our `appointment` model we're going to update it to:
-
-```ruby
-class Appointment < ActiveRecord::Base
-  belongs_to :doctor, inverse_of: :appointments
-  belongs_to :patient, inverse_of: :appointments
-end
-```
-
-What is `inverse_of` and why do we need it? Recall the example we discussed
-with `author` and `book`.
-
+### Through: Associated Records: Clinic Done
 
 ### Updating Serializers: Clinic
 
