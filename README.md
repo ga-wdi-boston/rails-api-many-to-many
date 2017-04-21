@@ -334,12 +334,14 @@ borrower3 = Borrower.create([{ given_name: 'Antony', family_name: 'Donovan'}])
 Check `localhost:4741/books` and `localhost:4741/borrowers` to see if we have
 created books and borrowers.
 
-### Updating Serializers
+## Updating Serializers
+
+### Demo: Modifying Library Serializers
 
 Now that we can see some data it's time to update our serializers or these
 relationships will not be as useful as they can.
 
-Let's add the borrower attribute to our attributes list in our `book` serializer.
+Let's add the `borrowers` attribute to our attributes list in our `book` serializer.
 
 Our finished serializer should look like this:
 
@@ -357,6 +359,34 @@ class BorrowerSerializer < ActiveModel::Serializer
   attributes :id, :family_name, :given_name, :books
 end
 ```
+
+### Code Along: Modifying Clinic Serializers
+
+Now that we can see some data it's time to update our serializers or these
+relationships will not be as useful as they can.
+
+Let's add the `patients` attribute to our attributes list in our `doctor` serializer.
+
+Our finished serializer should look like this:
+
+```ruby
+class DoctorSerializer < ActiveModel::Serializer
+  attributes :id, :given_name, :family_name, :patients
+end
+```
+
+Let's do the same in our `patient` serializer, it should look like this once,
+we're done.
+
+```ruby
+class PatientSerializer < ActiveModel::Serializer
+  attributes :id, :family_name, :given_name, :doctors
+end
+```
+
+### Lab: Modifying Cookbook Serializers
+
+Your turn! Add the appropriate attribute to the 'recipe' and 'ingredient' serializers.
 
 ### Test Using Curl
 
@@ -455,28 +485,6 @@ Now let's run this migration with `bin/rails db:migrate`.
 ### Through: Associated Records: Clinic Done
 
 ### Updating Serializers: Clinic
-
-Now that we can see some data it's time to update our serializers or these
-relationships will not be as useful as they can.
-
-Let's add the `doctor` attribute to our attributes list in our `patients` serializer.
-
-Our finished serializer should look like this:
-
-```ruby
-class DoctorSerializer < ActiveModel::Serializer
-  attributes :id, :given_name, :family_name, :patients
-end
-```
-
-Let's do the same in our `patients` serializer, it should look like this once,
-we're done.
-
-```ruby
-class PatientsSerializer < ActiveModel::Serializer
-  attributes :id, :family_name, :given_name, :doctors
-end
-```
 
 ### Test Using Curl: Clinic
 
