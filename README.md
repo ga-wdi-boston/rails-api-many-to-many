@@ -347,7 +347,7 @@ with `author` and `book`.
 Go ahead and set up the three models with the appropriate associations.
 
 
-### Adding Via ActiveRecord
+## Adding Via ActiveRecord
 
 First, let's open our Rails console with `bin/rails console`
 
@@ -535,24 +535,6 @@ Let's test this out by using curl request to construct relationships then remove
 Go ahead and setup the dependent destroy method on the `recipe` and `ingredient` models.
 
 Don't forget to test with curl requests!
-
-## Code-along: Clinic
-
-### Making a Join Table: Clinic Done
-
-
-### Through: Associated Records: Clinic Done
-
-### Updating Serializers: Clinic
-
-### Test Using Curl: Clinic
-
-### Dependent Destroy: Clinic
-
-## Lab: Cookbook Join Table
-
-Take all of the above steps and scaffold out a join table to have a many-to-many
-relationship between `Receipes` and `Ingredients`.
 
 ## [License](LICENSE)
 
