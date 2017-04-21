@@ -93,6 +93,40 @@ rollback.
 
 `bin/rails db:migrate`
 
+## Removing a Column
+
+### Code Along: Removing Doctor ID
+
+But wait! We forgot an important step! Last time, we added an `doctor_id` column
+to `patient`. Let's remove that before we go any further and our API performs in
+a way we don't expect.
+
+We need to create a migration to remove that column, from the Rails Guides:
+
+```markdown
+If the migration name is of the form "AddXXXToYYY" or "RemoveXXXFromYYY" and is
+followed by a list of column names and types then a migration containing the
+appropriate add_column and remove_column statements will be created.
+```
+
+Knowing this we can construct a migration that removes this column for us:
+
+```bash
+bin/rails generate migration RemoveDoctorIdFromPatient doctor_id:integer
+```
+
+and this creates the following migration:
+
+```ruby
+class RemoveDoctorIdFromPatients < ActiveRecord::Migration
+  def change
+    remove_column :patients, :doctor_id, :integer
+  end
+end
+```
+
+Now let's run this migration with `bin/rails db:migrate`.
+
 ## Making a Join Table
 
 ### Demo: Create Loan Table
@@ -503,38 +537,6 @@ Go ahead and setup the dependent destroy method on the `recipe` and `ingredient`
 Don't forget to test with curl requests!
 
 ## Code-along: Clinic
-
-### Removing a Column: Clinic
-
-But wait! We forgot an important step! Yesterday we added an `doctor_id` column
-to `patient`. Let's remove that before we go any further and our API performs in
-a way we don't expect.
-
-We need to create a migration to remove that column, from the Rails Guides:
-
-```markdown
-If the migration name is of the form "AddXXXToYYY" or "RemoveXXXFromYYY" and is
-followed by a list of column names and types then a migration containing the
-appropriate add_column and remove_column statements will be created.
-```
-
-Knowing this we can construct a migration that removes this column for us:
-
-```bash
-bin/rails generate migration RemoveDoctorIdFromPatient doctor_id:integer
-```
-
-and this creates the following migration:
-
-```ruby
-class RemoveDoctorIdFromPatients < ActiveRecord::Migration
-  def change
-    remove_column :patients, :doctor_id, :integer
-  end
-end
-```
-
-Now let's run this migration with `bin/rails db:migrate`.
 
 ### Making a Join Table: Clinic Done
 
