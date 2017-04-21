@@ -80,11 +80,11 @@ You can also see a column called `appointment_date`. You are allowed to add
 other columns on to your `join table`, but do not necessarily have to.  In this
 case it makes sense, in some cases it may not, use your judgement.
 
-## Demo: Library Demo
+## Create Additional Resources
 
-### Borrowers
+### Demo: Create Borrower Resource
 
-Let's make borrowers' resources with scaffolding:
+Let's make a borrower resource with scaffolding:
 
 `bin/rails generate scaffold borrower given_name:string family_name:string`
 
@@ -93,7 +93,9 @@ rollback.
 
 `bin/rails db:migrate`
 
-### Making a Join Table
+## Making a Join Table
+
+### Demo: Create Loan Table
 
 We're going to use the generators that Rails provides to generate a `loan` model
 along with a `loan` migration that includes references to both `borrower` and
@@ -124,6 +126,52 @@ So our `Loan` table now has the following columns: ID, borrower_id, book_id, Dat
 
 Let's run our migration with `bin/rails db:migrate`
 
+The following command let's us take a peek at our database and see how this table looks:
+
+```bash
+bin/rails db
+```
+
+Once we have our prompt, `rails-api-library-demo_development=#`, we'll type:
+
+```bash
+\d loans
+```
+
+Now we see all the columns contained in the `loan` table.
+
+### Code Along: Create Appointment Table
+
+We're going to use the generators that Rails provides to generate a `appointment`
+model along with a `appointment` migration that includes references to both
+`patient` and `doctor`.
+
+```ruby
+bin/rails generate scaffold appointment doctor:references patient:references date:datetime
+```
+
+Along with creating a `appointment` model, controller, routes, and serializer,
+Rails will create this migration:
+
+```ruby
+class CreateAppointments < ActiveRecord::Migration
+  def change
+    create_table :appointments do |t|
+      t.references :doctor, index: true, foreign_key: true
+      t.references :patient, index: true, foreign_key: true
+      t.datetime :date
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+So our `appointment` table now has the following columns: ID, doctor_id,
+patient_id, Date.
+
+Let's run our migration with `bin/rails db:migrate`
+
 Let's take a peek at our database and see how this table looks. Simply type:
 
 ```bash
@@ -133,10 +181,17 @@ bin/rails db
 If your prompt looks like this `rails-api-library-demo_development=#` type:
 
 ```bash
-\d loans
+\d appointments
 ```
 
-You will be able to see all the columns contained in the `loan` table.
+You will be able to see all the columns contained in the `appointment` table.
+
+
+### Lab: Create 'Custom' Table
+
+Create a join table that represents the **association** between `recipes` and `ingredients`.
+
+**Note:** This table's name should be semantically correct.
 
 ### Through: Associated Records
 
@@ -341,51 +396,8 @@ end
 
 Now let's run this migration with `bin/rails db:migrate`.
 
-### Making a Join Table: Clinic
+### Making a Join Table: Clinic Done
 
-We're going to use the generators that Rails provides to generate a `appointment`
-model along with a `appointment` migration that includes references to both
-`patient` and `doctor`.
-
-```ruby
-bin/rails generate scaffold appointment doctor:references patient:references date:datetime
-```
-
-Along with creating a `appointment` model, controller, routes, and serializer,
-Rails will create this migration:
-
-```ruby
-class CreateAppointments < ActiveRecord::Migration
-  def change
-    create_table :appointments do |t|
-      t.references :doctor, index: true, foreign_key: true
-      t.references :patient, index: true, foreign_key: true
-      t.datetime :date
-
-      t.timestamps null: false
-    end
-  end
-end
-```
-
-So our `appointment` table now has the following columns: ID, doctor_id,
-patient_id, Date.
-
-Let's run our migration with `bin/rails db:migrate`
-
-Let's take a peek at our database and see how this table looks. Simply type:
-
-```bash
-bin/rails db
-```
-
-If your prompt looks like this `rails-api-library-demo_development=#` type:
-
-```bash
-\d appointments
-```
-
-You will be able to see all the columns contained in the `appointment` table.
 
 ### Through: Associated Records: Clinic
 
