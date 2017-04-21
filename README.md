@@ -86,12 +86,12 @@ case it makes sense, in some cases it may not, use your judgement.
 
 Let's make borrowers' resources with scaffolding:
 
-`rails g scaffold borrower given_name:string family_name:string`
+`bin/rails generate scaffold borrower given_name:string family_name:string`
 
 Let's migrate that in as well so we don't confuse ourselves if we have to
 rollback.
 
-`rake db:migrate`
+`bin/rails db:migrate`
 
 ### Making a Join Table
 
@@ -100,7 +100,7 @@ along with a `loan` migration that includes references to both `borrower` and
 `book`.
 
 ```ruby
-rails g scaffold loan borrower:references book:references date:datetime
+bin/rails generate scaffold loan borrower:references book:references date:datetime
 ```
 
 Along with creating a `loan` model, controller, routes, and serializer, Rails
@@ -122,12 +122,12 @@ end
 
 So our `Loan` table now has the following columns: ID, borrower_id, book_id, Date.
 
-Let's run our migration with `rake db:migrate`
+Let's run our migration with `bin/rails db:migrate`
 
 Let's take a peek at our database and see how this table looks. Simply type:
 
 ```bash
-rails db
+bin/rails db
 ```
 
 If your prompt looks like this `rails-api-library-demo_development=#` type:
@@ -207,7 +207,7 @@ relationship, so you don't have inconsistancies in your data.
 
 ### Adding Via ActiveRecord
 
-First, let's open our Rails console with `rails console`
+First, let's open our Rails console with `bin/rails console`
 
 And Let's create some books and borrowers
 
@@ -326,7 +326,7 @@ appropriate add_column and remove_column statements will be created.
 Knowing this we can construct a migration that removes this column for us:
 
 ```bash
-rails g migration RemoveDoctorIdFromPatient doctor_id:integer
+bin/rails generate migration RemoveDoctorIdFromPatient doctor_id:integer
 ```
 
 and this creates the following migration:
@@ -339,7 +339,7 @@ class RemoveDoctorIdFromPatients < ActiveRecord::Migration
 end
 ```
 
-Now let's run this migration with `rake db:migrate`.
+Now let's run this migration with `bin/rails db:migrate`.
 
 ### Making a Join Table: Clinic
 
@@ -348,7 +348,7 @@ model along with a `appointment` migration that includes references to both
 `patient` and `doctor`.
 
 ```ruby
-rails g scaffold appointment doctor:references patient:references date:datetime
+bin/rails generate scaffold appointment doctor:references patient:references date:datetime
 ```
 
 Along with creating a `appointment` model, controller, routes, and serializer,
@@ -371,12 +371,12 @@ end
 So our `appointment` table now has the following columns: ID, doctor_id,
 patient_id, Date.
 
-Let's run our migration with `rake db:migrate`
+Let's run our migration with `bin/rails db:migrate`
 
 Let's take a peek at our database and see how this table looks. Simply type:
 
 ```bash
-rails db
+bin/rails db
 ```
 
 If your prompt looks like this `rails-api-library-demo_development=#` type:
