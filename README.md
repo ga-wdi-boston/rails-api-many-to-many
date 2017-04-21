@@ -388,7 +388,9 @@ end
 
 Your turn! Add the appropriate attribute to the 'recipe' and 'ingredient' serializers.
 
-### Test Using Curl
+## Test Using Curl
+
+### Demo: Testing Loans Table
 
 Now, let's test this using curl. To connect `books` and `borrowers` we are going
 to post to the join table:
@@ -405,11 +407,34 @@ curl --include --request POST http://localhost:4741/loans \
   }'
 ```
 
-Using this curl request as your basis `Create`, `Read` and `Update` the loans
-table. *DO NOT DELETE*
+Using this curl request as our basis, we will `Create`, `Read` and `Update` the loans
+table.
 
 The same result could be achieved in the Rails console using Ruby. How might
 we write that command?
+
+### Code Along: Testing Appointments Table
+
+Now, let's test this using curl. To connect `doctors` and `patients` we are going
+to post to the join table:
+
+```bash
+curl --include --request POST http://localhost:4741/appointments \
+  --header "Content-Type: application/json" \
+  --data '{
+    "appointment": {
+      "doctor_id": "2",
+      "patient_id": "2"
+    }
+  }'
+```
+
+Using this curl request as our basis, we will `Create`, `Read` and `Update` the appointments
+table. *DO NOT DELETE*
+
+### Lab: Testing 'Custom' Table
+
+Now it's your turn to test the `recipes` and `ingredients` join table. Use the above curl scripts as examples to achieve your task.
 
 ### Dependent Destroy
 
@@ -487,23 +512,6 @@ Now let's run this migration with `bin/rails db:migrate`.
 ### Updating Serializers: Clinic
 
 ### Test Using Curl: Clinic
-
-Now, let's test this using curl. To connect `doctors` and `patients` we are going
-to post to the join table:
-
-```bash
-curl --include --request POST http://localhost:4741/appointments \
-  --header "Content-Type: application/json" \
-  --data '{
-    "appointment": {
-      "doctor_id": "2",
-      "patient_id": "2"
-    }
-  }'
-```
-
-Using this curl request as your basis `Create`, `Read` and `Update` the appointments
-table. *DO NOT DELETE*
 
 ### Dependent Destroy: Clinic
 
