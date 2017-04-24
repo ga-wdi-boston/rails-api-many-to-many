@@ -88,8 +88,10 @@ Let's make a borrower resource with scaffolding:
 
 `bin/rails generate scaffold borrower given_name:string family_name:string`
 
-Let's migrate that in as well so we don't confuse ourselves if we have to
-rollback.
+Let's check to see if our scaffolded code is correct.
+
+Now let's migrate that in so we don't confuse ourselves if we have to
+rollback:
 
 `bin/rails db:migrate`
 
