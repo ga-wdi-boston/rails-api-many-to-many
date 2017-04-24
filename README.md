@@ -446,9 +446,9 @@ curl --include --request POST http://localhost:4741/appointments \
 Using this curl request as our basis, we will `Create`, `Read` and `Update` the appointments
 table. *DO NOT DELETE*
 
-### Lab: Testing 'Custom' Table
+### Lab: Testing Recipe Ingredients Table
 
-Now it's your turn to test the `recipes` and `ingredients` join table. Use the above curl scripts as examples to achieve your task.
+Now it's your turn to test the `recipe_ingredients` join table. Use the above curl scripts as examples to achieve your task.
 
 ## Dependent Destroy
 
