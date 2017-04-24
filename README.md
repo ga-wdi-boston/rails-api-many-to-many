@@ -64,20 +64,20 @@ a two way street we are going to need a `join table`.
 
 ## Join Tables
 
-A `join table` is a special table which holds refrences two or more tables.
+A `join table` is a special model which holds references to two or more models.
 
-Let's see what this table might look like:
+Let's see what this association might look like:
 
 ![has_many_through](./book-borrower-loan.png)
 
 <!-- Image from Rails Docs -->
 
-In the above example the `loans` table is the `join table`. You can see
-it has both a `book_id` column and a `borrower_id` column.  Both of these
-columns store refrences to their respective tables.
+In the above example, the `loans` model is the `join table`. You can see
+it has both a `book_id` attribute and a `borrower_id` attribute.  Both of these
+attributes store references to their respective models.
 
-You can also see a column called `appointment_date`. You are allowed to add
-other columns on to your `join table`, but do not necessarily have to.  In this
+You can also see an attribute called `date`. You are allowed to add
+other attributes on to your `join table`, but you do not necessarily have to.  In this
 case it makes sense, in some cases it may not, use your judgement.
 
 ## Create Additional Resources
