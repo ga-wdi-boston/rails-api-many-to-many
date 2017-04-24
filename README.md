@@ -43,7 +43,7 @@ Now we are going to add a third model: `Borrower`, then we are going to create
 a fourth model, `Loan`, which is going to act as a link between the
 `Borrower`s and `Book`s.
 
-This `Loan` model will join together `Borrower` and `Book`.  Earlier, when we
+This `Loan` model will connect `Borrower` and `Book` together. Earlier, when we
 were working with a `one-to-many` relationship `books` belonged to an `author`.
 When we created a migration:
 
