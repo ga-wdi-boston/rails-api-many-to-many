@@ -20,11 +20,11 @@ This lesson assumes you have forked and cloned the following:
 
 By the end of this, developers should be able to:
 
--   Create a many-to-many relationship with existing tables
--   Create and utilize a join table
--   Create a new resource using `scaffold`
--   Specify an `inverse_of` relationship
--   Compare and contrast objects created in the join table versus those that were not
+-   Create a many-to-many relationship with existing models.
+-   Create and utilize a join table.
+-   Create a new resource using `scaffold`.
+-   Specify an `inverse_of` relationship.
+-   Compare and contrast objects created in the join table versus those that were not.
 
 ## Preparation
 
