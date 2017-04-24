@@ -348,28 +348,6 @@ with `author` and `book`.
 
 Go ahead and set up the three models with the appropriate associations.
 
-
-## Adding Via ActiveRecord
-
-First, let's open our Rails console with `bin/rails console`
-
-And Let's create some books and borrowers
-
-```ruby
-# books
-book1 = Book.create([{ title: 'Less Funny Than Jason'}])
-book2 = Book.create([{ title: 'How I Miss Meat!'}])
-book3 = Book.create([{ title: 'Lauren is on fleek'}])
-book4 = Book.create([{ title: 'I am a Robot: Beep Boop'}])
-
-# borrowers
-borrower1 = Borrower.create([{ given_name: 'Lauren', family_name: 'Fazah'}])
-borrower2 = Borrower.create([{ given_name: 'Jason', family_name: 'Weeks'}])
-borrower3 = Borrower.create([{ given_name: 'Antony', family_name: 'Donovan'}])
-```
-Check `localhost:4741/books` and `localhost:4741/borrowers` to see if we have
-created books and borrowers.
-
 ## Updating Serializers
 
 ### Demo: Modifying Library Serializers
