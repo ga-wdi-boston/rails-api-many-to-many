@@ -131,7 +131,7 @@ Now let's run this migration with `bin/rails db:migrate`.
 
 ## Making a Join Table
 
-### Demo: Create Loan Table
+### Demo: Create Loan Model
 
 We're going to use the generators that Rails provides to generate a `loan` model
 along with a `loan` migration that includes references to both `borrower` and
@@ -158,11 +158,11 @@ class CreateLoans < ActiveRecord::Migration
 end
 ```
 
-So our `Loan` table now has the following columns: ID, borrower_id, book_id, Date.
+So our `Loan` model now has the following attributes: id, borrower_id, book_id, and date.
 
 Let's run our migration with `bin/rails db:migrate`
 
-The following command let's us take a peek at our database and see how this table looks:
+The following command let's us take a peek at our database and see how this model looks:
 
 ```bash
 bin/rails db
@@ -174,19 +174,19 @@ Once we have our prompt, `rails-api-library-demo_development=#`, we'll type:
 \d loans
 ```
 
-Now we see all the columns contained in the `loan` table.
+Now we see all the columns contained in the `loans` table.
 
-### Code Along: Create Appointment Table
+### Code Along: Create Appointment Model
 
-We're going to use the generators that Rails provides to generate a `appointment`
-model along with a `appointment` migration that includes references to both
+We're going to use the generators that Rails provides to generate an `appointment`
+model along with an `appointment` migration that includes references to both
 `patient` and `doctor`.
 
 ```ruby
 bin/rails generate scaffold appointment doctor:references patient:references date:datetime
 ```
 
-Along with creating a `appointment` model, controller, routes, and serializer,
+Along with creating an `appointment` model, controller, routes, and serializer,
 Rails will create this migration:
 
 ```ruby
@@ -203,31 +203,31 @@ class CreateAppointments < ActiveRecord::Migration
 end
 ```
 
-So our `appointment` table now has the following columns: ID, doctor_id,
-patient_id, Date.
+So our `appointment` model now has the following attributes: id, doctor_id,
+patient_id, and date.
 
 Let's run our migration with `bin/rails db:migrate`
 
-Let's take a peek at our database and see how this table looks. Simply type:
+Let's take a peek at our database and see how this model looks. Simply type:
 
 ```bash
 bin/rails db
 ```
 
-If your prompt looks like this `rails-api-library-demo_development=#` type:
+If your prompt looks like this `rails-api-clinic-code-along_development=#` type:
 
 ```bash
 \d appointments
 ```
 
-You will be able to see all the columns contained in the `appointment` table.
+You will be able to see all the columns contained in the `appointments` table.
 
 
-### Lab: Create 'Custom' Table
+### Lab: Create Recipe Ingredient Model
 
-Create a join table that represents the **association** between `recipes` and `ingredients`.
+Create a join table, `recipe_ingredients`, that represents the association between the `recipe` and `ingredient` models.
 
-**Note:** This table's name should be semantically correct.
+**Note:** Naming things is hard and if you absolutely can't come up with a good associative name, then mash the two model names together.
 
 ## Through: Associated Records
 
