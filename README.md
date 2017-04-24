@@ -95,39 +95,51 @@ rollback:
 
 `bin/rails db:migrate`
 
-## Removing a Column
+## Renaming Associations
 
-### Code Along: Removing Doctor ID
+### Code Along: Renaming Clinic Associations
 
-But wait! We forgot an important step! Last time, we added an `doctor_id` column
-to `patient`. Let's remove that before we go any further and our API performs in
-a way we don't expect.
+We want to create a new association between `doctor` and `patient`.
 
-We need to create a migration to remove that column, from the Rails Guides:
+However, there are a few things to consider:
+- Patients view doctors through specific professions.
+- Doctors view patients differently as well.
+- Relationships in a model **cannot** have the same name.
 
-```markdown
-If the migration name is of the form "AddXXXToYYY" or "RemoveXXXFromYYY" and is
-followed by a list of column names and types then a migration containing the
-appropriate add_column and remove_column statements will be created.
-```
+With this in mind, we can think of...: a doctor can have many *types* of patients and a patient can have different *types* of doctors. *Think: primary care recipient and primary care physician.*
 
-Knowing this we can construct a migration that removes this column for us:
+In order to keep the work we've done so far, we'll want to modify our model associations to keep the relationship intact.
 
-```bash
-bin/rails generate migration RemoveDoctorIdFromPatient doctor_id:integer
-```
+But where do we start? [The Rails Guide](http://guides.rubyonrails.org/association_basics.html) has all the answers.
 
-and this creates the following migration:
+Looks like we need to add a `class_name` attribute to both models and a `foreign_key` attribute to the `patient` model.
+
+In `models/doctor.rb`:
 
 ```ruby
-class RemoveDoctorIdFromPatients < ActiveRecord::Migration
-  def change
-    remove_column :patients, :doctor_id, :integer
-  end
+class Doctor < ApplicationRecord
+  has_many :primary_care_recipients, class_name: 'Patient'
+
+  validates :given_name, presence: true
+  validates :family_name, presence: true
 end
 ```
 
-Now let's run this migration with `bin/rails db:migrate`.
+In `models/patient.rb`:
+
+```ruby
+class Patient < ApplicationRecord
+  belongs_to :primary_care_physician,
+             class_name: 'Doctor', foreign_key: 'doctor_id'
+
+  validates :name, presence: true
+  validates :born_on, presence: true
+end
+```
+
+### Lab: Renaming Cookbook Associations
+
+Now rename the associations for the `recipe` and `ingredient` models.
 
 ## Making a Join Table
 
