@@ -4,17 +4,17 @@
 
 This lesson assumes you have forked and cloned the following:
 
--   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
--   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
--   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+-   [rails-api-library-demo](https://git.generalassemb.ly/ga-wdi-boston/rails-api-library-demo)
+-   [rails-api-clinic-code-along](https://git.generalassemb.ly/ga-wdi-boston/rails-api-clinic-code-along)
+-   [rails-api-cookbook-lab](https://git.generalassemb.ly/ga-wdi-boston/rails-api-cookbook-lab)
 
 1.  Open a desktop view for each of these projects
 1.  Open an Atom, Terminal, and browser window for each project
 
 ## Prerequisites
 
--   [rails-api-single-resource](https://github.com/ga-wdi-boston/rails-api-single-resources)
--   [rails-api-one-to-many](https://github.com/ga-wdi-boston/rails-api-one-to-many)
+-   [rails-api-single-resource](https://git.generalassemb.ly/ga-wdi-boston/rails-api-single-resources)
+-   [rails-api-one-to-many](https://git.generalassemb.ly/ga-wdi-boston/rails-api-one-to-many)
 
 ## Objectives
 
@@ -29,7 +29,7 @@ By the end of this, developers should be able to:
 ## Preparation
 
 1.  Fork and clone this repository.
- [FAQ](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
+ [FAQ](https://git.generalassemb.ly/ga-wdi-boston/meta/wiki/ForkAndClone)
 1.  Create a new branch, `training`, for your work.
 1.  Checkout to the `training` branch.
 
