@@ -122,7 +122,9 @@ class Patient < ApplicationRecord
 
   ## This is exactly the same as the above
   ## but shows what rails assumes
-  belongs_to :doctor, class_name: 'Doctor', foreign_key: 'doctor_id'
+  belongs_to :doctor, class_name: 'Doctor',
+                      foreign_key: 'doctor_id',
+                      inverse_of: 'patients'
   # patient1.doctor will return us an instance of Doctor if there is one for that patient
 
   ## If we want our association name to be 'primary_care_physician'
@@ -130,14 +132,17 @@ class Patient < ApplicationRecord
   ## then rails will make the wrong assumptions
   belongs_to :primary_care_physician,
                     class_name: 'PrimaryCarePhysician',
-                    foreign_key: 'primary_care_physician_id'
-              ## THIS IS WRONG ^^^ Why? Do we have a PrimaryCarePhysician class?
+                    foreign_key: 'primary_care_physician_id',
+                    inverse_of: 'patients'
+  ## THESE ARE ALL WRONG ^^^ Why? Do we have a PrimaryCarePhysician class?
+                              ##  What do we want doctorWho.patients to return?
 
   ## So we have to tell it explicitly
   ## which class and foreign key our association name should point to
   belongs_to :primary_care_physician,
                      class_name: 'Doctor',
-                     foreign_key: 'doctor_id'
+                     foreign_key: 'doctor_id',
+                     inverse_of: 'primary_care_recipients'
   # patient1.primary_care_physician will return us an instance of a Doctor
 end
 ```
@@ -147,7 +152,9 @@ In `models/patient.rb`:
 ```ruby
 class Patient < ApplicationRecord
   belongs_to :primary_care_physician,
-             class_name: 'Doctor', foreign_key: 'doctor_id'
+             class_name: 'Doctor',
+             foreign_key: 'doctor_id',
+             inverse_of: 'primary_care_recipients'
 
   validates :name, presence: true
   validates :born_on, presence: true
@@ -158,7 +165,9 @@ In `models/doctor.rb`:
 
 ```ruby
 class Doctor < ApplicationRecord
-  has_many :primary_care_recipients, class_name: 'Patient'
+  has_many :primary_care_recipients,
+           class_name: 'Patient',
+           inverse_of: 'primary_care_physician'
 
   validates :given_name, presence: true
   validates :family_name, presence: true
@@ -310,33 +319,10 @@ Finally in our `loan` model we're going to update it to:
 
 ```ruby
 class Loan < ActiveRecord::Base
-  belongs_to :borrower, inverse_of: :loans
-  belongs_to :book, inverse_of: :loans
+  belongs_to :borrower
+  belongs_to :book
 end
 ```
-
-What is `inverse_of` and why do we need it?
-
-When you create a `bi-directional` (two way) association, ActiveRecord does not
-necessarily know about that relationship.
-
-*I say necessarily because in future versions of Rails this is/may be resolved*
-
-Without `inverse_of` you can get some strange behavior like this:
-
-```ruby
-author = Author.first
-book = author.books.first
-author.given_name == book.author.given_name # => true
-author.given_name = 'Lauren'
-author.given_name == book.author.given_name # => false
-```
-
-Rails will store `a` and `b.author` in different places in memory, not knowing to
-change one when you change the other. `inverse_of` informs Rails of the
-relationship, so you don't have inconsistancies in your data.
-
-*For more info on this please read the [Rails Guides](http://guides.rubyonrails.org/association_basics.html)*
 
 ### Code Along: Modifying Clinic Associations
 
