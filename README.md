@@ -114,14 +114,31 @@ But where do we start? [The Rails Guide](http://guides.rubyonrails.org/associati
 
 Looks like we need to add a `class_name` attribute to both models and a `foreign_key` attribute to the `patient` model.
 
-In `models/doctor.rb`:
 
 ```ruby
-class Doctor < ApplicationRecord
-  has_many :primary_care_recipients, class_name: 'Patient'
+class Patient < ApplicationRecord
+  ## This is the standard use case
+  belongs_to :doctor
 
-  validates :given_name, presence: true
-  validates :family_name, presence: true
+  ## This is exactly the same as the above
+  ## but shows what rails assumes
+  belongs_to :doctor, class_name: 'Doctor', foreign_key: 'doctor_id'
+  # patient1.doctor will return us an instance of Doctor if there is one for that patient
+
+  ## If we want our association name to be 'primary_care_physician'
+  belongs_to :primary_care_physician
+  ## then rails will make the wrong assumptions
+  belongs_to :primary_care_physician,
+                    class_name: 'PrimaryCarePhysician',
+                    foreign_key: 'primary_care_physician_id'
+              ## THIS IS WRONG ^^^ Why? Do we have a PrimaryCarePhysician class?
+
+  ## So we have to tell it explicitly
+  ## which class and foreign key our association name should point to
+  belongs_to :primary_care_physician,
+                     class_name: 'Doctor',
+                     foreign_key: 'doctor_id'
+  # patient1.primary_care_physician will return us an instance of a Doctor
 end
 ```
 
@@ -134,6 +151,17 @@ class Patient < ApplicationRecord
 
   validates :name, presence: true
   validates :born_on, presence: true
+end
+```
+
+In `models/doctor.rb`:
+
+```ruby
+class Doctor < ApplicationRecord
+  has_many :primary_care_recipients, class_name: 'Patient'
+
+  validates :given_name, presence: true
+  validates :family_name, presence: true
 end
 ```
 
