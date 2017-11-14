@@ -4,17 +4,17 @@
 
 This lesson assumes you have forked and cloned the following:
 
--   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
--   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
--   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+-   [rails-api-library-demo](https://git.generalassemb.ly/ga-wdi-boston/rails-api-library-demo)
+-   [rails-api-clinic-code-along](https://git.generalassemb.ly/ga-wdi-boston/rails-api-clinic-code-along)
+-   [rails-api-cookbook-lab](https://git.generalassemb.ly/ga-wdi-boston/rails-api-cookbook-lab)
 
 1.  Open a desktop view for each of these projects
 1.  Open an Atom, Terminal, and browser window for each project
 
 ## Prerequisites
 
--   [rails-api-single-resource](https://github.com/ga-wdi-boston/rails-api-single-resources)
--   [rails-api-one-to-many](https://github.com/ga-wdi-boston/rails-api-one-to-many)
+-   [rails-api-single-resource](https://git.generalassemb.ly/ga-wdi-boston/rails-api-single-resources)
+-   [rails-api-one-to-many](https://git.generalassemb.ly/ga-wdi-boston/rails-api-one-to-many)
 
 ## Objectives
 
@@ -29,7 +29,7 @@ By the end of this, developers should be able to:
 ## Preparation
 
 1.  Fork and clone this repository.
- [FAQ](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
+ [FAQ](https://git.generalassemb.ly/ga-wdi-boston/meta/wiki/ForkAndClone)
 1.  Create a new branch, `training`, for your work.
 1.  Checkout to the `training` branch.
 
@@ -114,14 +114,36 @@ But where do we start? [The Rails Guide](http://guides.rubyonrails.org/associati
 
 Looks like we need to add a `class_name` attribute to both models and a `foreign_key` attribute to the `patient` model.
 
-In `models/doctor.rb`:
 
 ```ruby
-class Doctor < ApplicationRecord
-  has_many :primary_care_recipients, class_name: 'Patient'
+class Patient < ApplicationRecord
+  ## This is the standard use case
+  belongs_to :doctor
 
-  validates :given_name, presence: true
-  validates :family_name, presence: true
+  ## This is exactly the same as the above
+  ## but shows what rails assumes
+  belongs_to :doctor, class_name: 'Doctor',
+                      foreign_key: 'doctor_id',
+                      inverse_of: 'patients'
+  # patient1.doctor will return us an instance of Doctor if there is one for that patient
+
+  ## If we want our association name to be 'primary_care_physician'
+  belongs_to :primary_care_physician
+  ## then rails will make the wrong assumptions
+  belongs_to :primary_care_physician,
+                    class_name: 'PrimaryCarePhysician',
+                    foreign_key: 'primary_care_physician_id',
+                    inverse_of: 'patients'
+  ## THESE ARE ALL WRONG ^^^ Why? Do we have a PrimaryCarePhysician class?
+                              ##  What do we want doctorWho.patients to return?
+
+  ## So we have to tell it explicitly
+  ## which class and foreign key our association name should point to
+  belongs_to :primary_care_physician,
+                     class_name: 'Doctor',
+                     foreign_key: 'doctor_id',
+                     inverse_of: 'primary_care_recipients'
+  # patient1.primary_care_physician will return us an instance of a Doctor
 end
 ```
 
@@ -130,10 +152,25 @@ In `models/patient.rb`:
 ```ruby
 class Patient < ApplicationRecord
   belongs_to :primary_care_physician,
-             class_name: 'Doctor', foreign_key: 'doctor_id'
+             class_name: 'Doctor',
+             foreign_key: 'doctor_id',
+             inverse_of: 'primary_care_recipients'
 
   validates :name, presence: true
   validates :born_on, presence: true
+end
+```
+
+In `models/doctor.rb`:
+
+```ruby
+class Doctor < ApplicationRecord
+  has_many :primary_care_recipients,
+           class_name: 'Patient',
+           inverse_of: 'primary_care_physician'
+
+  validates :given_name, presence: true
+  validates :family_name, presence: true
 end
 ```
 
@@ -282,33 +319,10 @@ Finally in our `loan` model we're going to update it to:
 
 ```ruby
 class Loan < ActiveRecord::Base
-  belongs_to :borrower, inverse_of: :loans
-  belongs_to :book, inverse_of: :loans
+  belongs_to :borrower
+  belongs_to :book
 end
 ```
-
-What is `inverse_of` and why do we need it?
-
-When you create a `bi-directional` (two way) association, ActiveRecord does not
-necessarily know about that relationship.
-
-*I say necessarily because in future versions of Rails this is/may be resolved*
-
-Without `inverse_of` you can get some strange behavior like this:
-
-```ruby
-author = Author.first
-book = author.books.first
-author.given_name == book.author.given_name # => true
-author.given_name = 'Lauren'
-author.given_name == book.author.given_name # => false
-```
-
-Rails will store `a` and `b.author` in different places in memory, not knowing to
-change one when you change the other. `inverse_of` informs Rails of the
-relationship, so you don't have inconsistancies in your data.
-
-*For more info on this please read the [Rails Guides](http://guides.rubyonrails.org/association_basics.html)*
 
 ### Code Along: Modifying Clinic Associations
 
